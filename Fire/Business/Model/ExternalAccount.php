@@ -10,10 +10,10 @@ class ExternalAccount {
         $this->properties = array(
             'id' => $rawData->{'id'},
             'alias' => $rawData->{'alias'},
-            'nsc' => $rawData->{'nsc'},
-            'accountNumber' => $rawData->{'accountNumber'},
-            'bic' => $rawData->{'bic'},
-            'iban' => $rawData->{'iban'}                
+            'nsc' => @$rawData->{'nsc'},
+            'accountNumber' => @$rawData->{'accountNumber'},
+            'bic' => @$rawData->{'bic'},
+            'iban' => @$rawData->{'iban'}                
         );
         
     }

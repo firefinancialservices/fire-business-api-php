@@ -9,8 +9,15 @@ class Transaction {
     
     public function __construct(\stdClass $rawTransaction) {
 
+	if (is_string(@$rawTransaction->{'type'})) {
+	    // This is probably a test webhook - stupid bug
+	    $type = $rawTransaction->{'type'};
+	} else {
+	    $type = $rawTransaction->{'txnType'}->{'type'};
+	}
+
         $this->properties = array(
-            'type' => $rawTransaction->{'txnType'}->{'type'},
+            'type' => $type,
             'amountBeforeFee' => $rawTransaction->{'amountBeforeFee'},
             'currency' => $rawTransaction->{'currency'}->{'code'},
             'feeAmount' => $rawTransaction->{'feeAmount'},
@@ -25,9 +32,9 @@ class Transaction {
             
             if ($type == "WITHDRAWAL_ACCOUNT" || $type == "EXTERNAL_ACCOUNT") {
                 $this->properties["from"] = new ExternalAccount($rawTransaction->{'from'}->{'account'});
-            } elsif ($type == "FIRE_ACCOUNT") {
+            } else if ($type == "FIRE_ACCOUNT") {
                 $this->properties["from"] = new FireAccount($rawTransaction->{'from'}->{'account'});
-            } elsif ($type == "USER") {
+            } else if ($type == "USER") {
                 $this->properties["from"] = new User($rawTransaction->{'from'}->{'user'});
             }
         }
@@ -37,9 +44,9 @@ class Transaction {
             
             if ($type == "WITHDRAWAL_ACCOUNT" || $type == "EXTERNAL_ACCOUNT") {
                 $this->properties["to"] = new ExternalAccount($rawTransaction->{'to'}->{'account'});
-            } elsif ($type == "FIRE_ACCOUNT") {
+            } else if ($type == "FIRE_ACCOUNT") {
                 $this->properties["to"] = new FireAccount($rawTransaction->{'to'}->{'account'});
-            } elsif ($type == "USER") {
+            } else if ($type == "USER") {
                 $this->properties["to"] = new User($rawTransaction->{'to'}->{'user'});
             }
         }

@@ -27,13 +27,20 @@ class Handler {
     }
     
     public function parse($jwt = null) {
-        $p = JWT::decode($jwt, $this->mSecret, false);
-
-	$t = new Transaction($p);
-
+        $jsonObj = JWT::decode($jwt, $this->mSecret, false);
+	
 	$events = array();
-        array_push($events, $t);
-        
+
+	if (is_array($jsonObj)) {
+		foreach($jsonObj as $item) {
+			$t = new Transaction($item);
+        		array_push($events, $t);
+		}
+	} else {
+		$t = new Transaction($jsonObj);
+        	array_push($events, $t);
+	}	
+	
         return $events;
         
     }
