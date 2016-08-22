@@ -5,7 +5,7 @@ A PHP library for accessing the Fire Business API
 
 You can install **fire-business-api-php** by downloading the latest [release][releases] or using composer:
 
-composer require fire/business-api-sdk
+`composer require fire/business-api-sdk`
 
 To run the samples, edit the file `sample/config.inc.php.sample` and rename to `sample/config.inc.php`.
 
