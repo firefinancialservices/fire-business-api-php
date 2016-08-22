@@ -5,6 +5,8 @@ A PHP library for accessing the Fire Business API
 
 You can install **fire-business-api-php** by downloading the source.
 
+To run the samples, edit the file `sample/config.inc.php.sample` and rename to `sample/config.inc.php`.
+
 ## Quickstart
 
 ### Receive a webhook

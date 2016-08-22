@@ -1,0 +1,5 @@
+# Get these values in the Settings > API section of the Fire Business Web app. 
+# Rename to config.inc.php
+
+$config['keyId'] = '';
+$config['secret'] = '';
