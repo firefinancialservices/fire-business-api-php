@@ -20,6 +20,29 @@ class Transaction {
             'date' => Deserialize::iso8601DateTime($rawTransaction->{'date'})
         );
         
+        if ($rawTransaction->{'from'} instanceof \stdClass) {
+            $type = $rawTransaction->{'from'}->{'type'};
+            
+            if ($type == "WITHDRAWAL_ACCOUNT" || $type == "EXTERNAL_ACCOUNT") {
+                $this->properties["from"] = new ExternalAccount($rawTransaction->{'from'}->{'account'});
+            } elsif ($type == "FIRE_ACCOUNT") {
+                $this->properties["from"] = new FireAccount($rawTransaction->{'from'}->{'account'});
+            } elsif ($type == "USER") {
+                $this->properties["from"] = new User($rawTransaction->{'from'}->{'user'});
+            }
+        }
+        
+        if ($rawTransaction->{'to'} instanceof \stdClass) {
+            $type = $rawTransaction->{'to'}->{'type'};
+            
+            if ($type == "WITHDRAWAL_ACCOUNT" || $type == "EXTERNAL_ACCOUNT") {
+                $this->properties["to"] = new ExternalAccount($rawTransaction->{'to'}->{'account'});
+            } elsif ($type == "FIRE_ACCOUNT") {
+                $this->properties["to"] = new FireAccount($rawTransaction->{'to'}->{'account'});
+            } elsif ($type == "USER") {
+                $this->properties["to"] = new User($rawTransaction->{'to'}->{'user'});
+            }
+        }
     }
 
     public function getType() {
