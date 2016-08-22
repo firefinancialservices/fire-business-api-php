@@ -10,7 +10,7 @@ $postdata = "eyJraWQiOiIwMDNlOTdlZS1hYzM4LTQwYmMtYjA5Ny0zZjA3NDU0MjU4ZGQiLCJhbGc
 $handler = new Fire\Business\Webhook\Handler($config['keyId'], $config['secret']);
 $events = $handler->parse($postdata);
 
-print $events;
+print var_dump($events);
 
 
 

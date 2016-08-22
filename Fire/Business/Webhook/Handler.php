@@ -2,7 +2,8 @@
 
 namespace Fire\Business\Webhook;
 
-use Fire\Exceptions\ConfigurationException;
+use Fire\Business\Exceptions\ConfigurationException;
+use Fire\Business\JWT;
 
 /**
  * A Handler for parsing the webhooks sent by Fire 
@@ -25,11 +26,12 @@ class Handler {
     }
     
     public function parse($jwt = null) {
-        print "$jwt\n";
+        $p = JWT::decode($jwt, $this->mSecret, false);
+
+	$events = array();
+        array_push($events, $p);
         
-        $p = Fire\\JWT::decode($jwt, $secret, false);
-        
-        print $p;
+        return $events;
         
     }
 }
