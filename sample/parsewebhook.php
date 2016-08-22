@@ -16,5 +16,6 @@ $events = $handler->parse($postdata);
 
 print $events[0];
 print $events[0]->get("amountBeforeFee");
+print $events[0]->get("to")->get("alias");
 
 ?>
