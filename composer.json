@@ -1,5 +1,5 @@
 {
-    "name": "fire-business-api/sdk",
+    "name": "fire/business-api-sdk",
     "type": "library",
     "description": "A PHP wrapper for the Fire Business API",
     "keywords": ["fire", "business", "account", "api"],
