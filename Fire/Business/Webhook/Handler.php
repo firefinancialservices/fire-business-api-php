@@ -25,6 +25,11 @@ class Handler {
     }
     
     public function parse($jwt = null) {
-        print $jwt;
+        print "$jwt\n";
+        
+        $p = Fire\\JWT::decode($jwt, $secret, false);
+        
+        print $p;
+        
     }
 }
