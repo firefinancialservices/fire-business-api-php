@@ -12,8 +12,12 @@ To run the samples, edit the file `sample/config.inc.php.sample` and rename to `
 ### Receive a webhook
 
 ```php
-// Receive a webhook from your business account
 <?php
+
+// Using Composer dependency manager
+require "vendor/autoload.php"; 
+
+// Receive a webhook from your business account
 $keyId = "XXXXXX"; // The Key ID associated with your webhook
 $secret = "YYYYYY"; // The Secret associated with your webhook
 
