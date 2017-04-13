@@ -35,7 +35,7 @@ print $events[0];
 
 ## Documentation
 
-The documentation for the Fire Business API is available at [paywithfire.com/docs][apidocs].
+The documentation for the Fire Business API is available at [fire.com/docs][apidocs].
 
 ## Prerequisites
 
@@ -44,9 +44,9 @@ The documentation for the Fire Business API is available at [paywithfire.com/doc
 
 # Getting help
 
-If you need help installing or using the library, please contact Fire Support at support@paywithfire.com.
+If you need help installing or using the library, please contact Fire Support at support@fire.com.
 
 If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 [releases]: https://github.com/firefinancialservices/fire-business-api-php/releases
-[apidocs]: https://paywithfire.com/docs
+[apidocs]: https://fire.com/docs

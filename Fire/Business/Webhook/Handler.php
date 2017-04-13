@@ -9,7 +9,7 @@ use Fire\Business\JWT;
 /**
  * A Handler for parsing the webhooks sent by Fire 
  *
- * @author Owen O Byrne <owen.obyrne@paywithfire.com>
+ * @author Owen O Byrne <owen.obyrne@fire.com>
  *
  */
 class Handler {
