@@ -20,13 +20,14 @@ class CurlClient implements Client {
 
     public function __construct(array $options = array()) {
         $this->curlOptions = $options;
+	$this->debugHttp = getenv('DEBUG_HTTP_TRAFFIC') === 'true';
     }
 
     public function request($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $user = null, $password = null,
+                            $headers = array(), $authorizationToken = null,
                             $timeout = null) {
         $options = $this->options($method, $url, $params, $data, $headers,
-                                  $user, $password, $timeout);
+                                  $authorizationToken, $timeout);
 
         try {
             if (!$curl = curl_init()) {
@@ -77,7 +78,7 @@ class CurlClient implements Client {
     }
 
     public function options($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $user = null, $password = null,
+                            $headers = array(), $authorizationToken = null,
                             $timeout = null) {
 
         $timeout = is_null($timeout)
@@ -97,8 +98,8 @@ class CurlClient implements Client {
             $options[CURLOPT_HTTPHEADER][] = "$key: $value";
         }
 
-        if ($user && $password) {
-            $options[CURLOPT_HTTPHEADER][] = 'Authorization: Basic ' . base64_encode("$user:$password");
+        if ($authorizationToken) {
+            $options[CURLOPT_HTTPHEADER][] = "Authorization: $authorizationToken";
         }
 
         $body = $this->buildQuery($params);
