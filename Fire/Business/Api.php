@@ -2,26 +2,79 @@
 
 namespace Fire\Business;
 
+use Fire\Business\Api\Login;
 use Fire\Business\Api\AccountList;
+use Fire\Business\Api\AccountDetails;
+use Fire\Business\Api\PayeeList;
+use Fire\Business\Api\PayeeDetails;
+use Fire\Business\Api\UserDetails;
+use Fire\Business\Api\PinGrid;
+use Fire\Business\Api\ServiceDetails;
 use Fire\Business\Exceptions\RestException;
 use Fire\Business\Exceptions\FireException;
 
 class Api {
 	protected $client;
 	protected $baseUrl;
+	protected $pinDigits = array();
+	protected $totpSeed;
 
+	protected $_login = null;
+	protected $_userDetails = null;
 	protected $_accounts = null;
+	protected $_payees = null;
+	protected $_serviceDetails = null;
 
 	public function __construct(Client $client) {
 		$this->client = $client;
-		$this->baseUrl = "https://api.fire.com/bupa/v1";
+		$this->baseUrl = "https://api.fire.com/bupa";
 	}
+
+	protected function contextLogin($businessId, $email, $password, $pinDigits, $totpSeed) {
+		$this->pinDigits = str_split($pinDigits);
+		$this->totpSeed = $totpSeed;
+
+        	if (!$this->_login) {
+        		$this->_login = new Login($this);
+        	}
+        	return $this->_login->login($businessId, $email, $password);
+    	}
 
 	protected function getAccounts() {
         	if (!$this->_accounts) {
         		$this->_accounts = new AccountList($this);
         	}
         	return $this->_accounts;
+    	}
+
+	protected function contextAccounts($accountId) {
+		return new AccountDetails($this, $accountId, $this->pinDigits);
+	}
+
+	protected function contextPayees($payeeId) {
+		return new PayeeDetails($this, $payeeId, $this->pinDigits, $this->totpSeed);
+	}
+
+	protected function contextServiceDetails($service) {
+        	return new ServiceDetails($this, $service);
+    	}
+
+	protected function getPinGrid() {
+        	return new PinGrid($this);
+    	}
+
+	protected function getPayees() {
+        	if (!$this->_payees) {
+        		$this->_payees = new PayeeList($this);
+        	}
+        	return $this->_payees;
+    	}
+
+	protected function getUserDetails() {
+        	if (!$this->_userDetails) {
+        		$this->_userDetails = new UserDetails($this);
+        	}
+        	return $this->_userDetails;
     	}
 
 
@@ -60,6 +113,7 @@ class Api {
 
 
 	protected function exception($response, $header) {
+		print_r ($response);
 		$message = '[HTTP ' . $response->getStatusCode() . '] ' . $header;
 		$content = $response->getContent();
 		if (is_array($content)) {

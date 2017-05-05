@@ -9,8 +9,37 @@ include_once("Fire/Starter.php");
 // Configs from another file
 include_once('config.inc.php');
 
-$client = new Fire\Business\Client($config['authorizationToken']);
+# Set up the PHP Client and log in.
+$client = new Fire\Business\Client();
+$loggedInUser = $client->login($config['businessId'], $config['email'], $config['password'], $config['pindigits'], $config['totpseed']);
 
+# Get lists of Fire Account and Payees
 print_r ($client->accounts->read());
+print_r ($client->payees->read());
 
+
+# Perform a bank transfer to a payee
+print_r ($client->account(2150)->bankTransfer(array(
+	"amount" => 1000,
+        "currency" => "EUR",
+        "payeeId" => 15996,
+        "myRef" => "Testing",
+        "theirRef" => "Testing BTs",
+)));
+
+
+# Perform an internal transfer between two Fire accounts
+print_r ($client->account(2150)->fireTransfer(array(
+	"amount" => 1000,
+        "currency" => "EUR",
+        "destinationAccountId" => 5532,
+        "myRef" => "Testing PHP",
+)));
+
+# Get details of individual accounts/payees and the transactions for them.
+print_r ($client->account(2150)->read());
+print_r ($client->account(2150)->transactions());
+print_r ($client->payee(15996)->read());
+print_r ($client->payee(15996)->transactions());
+	
 ?>

@@ -5,13 +5,13 @@ namespace Fire\Business\Api;
 use Fire\Business\Api;
 use Fire\Business\ListResource;
 
-class AccountList extends ListResource {
+class PayeeList extends ListResource {
 	
 	public function __construct(Api $api) {
 		parent::__construct($api);
 
 		$this->solution = array();
-		$this->uri = "v1/accounts";
+		$this->uri = "v1/fundingsources";
 	}
 
 	public function read() {

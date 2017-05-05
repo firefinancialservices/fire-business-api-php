@@ -92,11 +92,13 @@ class CurlClient implements Client {
             CURLOPT_INFILESIZE => -1,
             CURLOPT_HTTPHEADER => array(),
             CURLOPT_TIMEOUT => $timeout,
+	    CURLOPT_VERBOSE => $this->debugHttp,
         );
 
         foreach ($headers as $key => $value) {
             $options[CURLOPT_HTTPHEADER][] = "$key: $value";
         }
+        $options[CURLOPT_HTTPHEADER][] = "Content-Type: application/json";
 
         if ($authorizationToken) {
             $options[CURLOPT_HTTPHEADER][] = "Authorization: $authorizationToken";
@@ -113,7 +115,9 @@ class CurlClient implements Client {
                 break;
             case 'post':
                 $options[CURLOPT_POST] = true;
-                $options[CURLOPT_POSTFIELDS] = $this->buildQuery($data);
+                #$options[CURLOPT_POSTFIELDS] = $this->buildQuery($data);
+                $options[CURLOPT_POSTFIELDS] = json_encode($data);
+
 
                 break;
             case 'put':
