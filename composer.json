@@ -1,7 +1,6 @@
 {
     "name": "fire/business-api-sdk",
     "type": "library",
-    "version": "0.0.2",
     "description": "A PHP wrapper for the Fire Business API",
     "keywords": ["fire", "business", "account", "api"],
     "homepage": "http://github.com/firefinancialservices/fire-business-api-php",
