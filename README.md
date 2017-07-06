@@ -50,7 +50,7 @@ If you need help installing or using the library, please contact Fire Support at
 If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 # Alpha API Documentation
-This section of the docs concerns the Payment Initiation features of the API. These are only available using your business Id, email, password, PIN and Google Authenticator Code. This method of authentication will be replaced with stanfard API tokens and keys in 2017. Use this API with care!
+This section of the docs concerns the Payment Initiation features of the API. These are only available using your business Id, email, password, PIN and Google Authenticator Code. This method of authentication will be replaced with standard API tokens and keys in 2017. Use this API with care!
 
 ## Authentication
 ```php
