@@ -41,6 +41,7 @@ The documentation for the Fire Business API is available at [fire.com/docs][apid
 
 * PHP >= 5.3
 * The PHP JSON extension
+* The PHP MBString extension
 * The PHP cURL extension
 
 # Getting help
@@ -58,6 +59,12 @@ This section of the docs concerns the Payment Initiation features of the API. Th
 // Set up the PHP Client and log in - keep your login credentials out of the code and out of Github!!
 $client = new Fire\Business\Client();
 $loggedInUser = $client->login($config['businessId'], $config['email'], $config['password'], $config['pindigits'], $config['totpseed']);
+```
+
+To use a different endpoint instead of the live API, pass it in the ```$client``` constructor as follows:
+```php
+<?php
+$client = new Fire\Business\Client("https://api.fire.com/something");
 ```
 
 ## Fire Accounts and Payees
