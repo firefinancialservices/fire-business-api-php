@@ -25,9 +25,9 @@ class Api {
 	protected $_payees = null;
 	protected $_serviceDetails = null;
 
-	public function __construct(Client $client) {
+	public function __construct(Client $client, $baseUrl) {
 		$this->client = $client;
-		$this->baseUrl = "https://api.fire.com/bupa";
+		$this->baseUrl = $baseUrl;
 	}
 
 	protected function contextLogin($businessId, $email, $password, $pinDigits, $totpSeed) {
@@ -52,7 +52,7 @@ class Api {
 	}
 
 	protected function contextPayees($payeeId) {
-		return new PayeeDetails($this, $payeeId, $this->pinDigits, $this->totpSeed);
+		return new PayeeDetails($this, $payeeId, $this->pinDigits);
 	}
 
 	protected function contextServiceDetails($service) {
@@ -65,7 +65,7 @@ class Api {
 
 	protected function getPayees() {
         	if (!$this->_payees) {
-        		$this->_payees = new PayeeList($this);
+        		$this->_payees = new PayeeList($this, $this->pinDigits, $this->totpSeed);
         	}
         	return $this->_payees;
     	}

@@ -24,7 +24,6 @@ class FireTransfer extends InstanceResource {
 			"icanTo" => $transfer["destinationAccountId"],
 			"ref" => $transfer["myRef"],
 		);
-print_r($postData);
     		return $this->api->fetch("POST", $this->uri, null, $postData);
    	}
 

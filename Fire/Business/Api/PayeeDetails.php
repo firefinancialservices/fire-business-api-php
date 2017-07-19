@@ -7,13 +7,11 @@ use Fire\Business\InstanceResource;
 
 class PayeeDetails extends InstanceResource {
 	protected $pinDigits = array();
-	protected $totpSeed;
 	
-	public function __construct(Api $api, $payeeId, array $pinDigits, $totpSeed) {
+	public function __construct(Api $api, $payeeId, array $pinDigits) {
 		parent::__construct($api);
 
 		$this->pinDigits = $pinDigits;
-		$this->totpSeed = $totpSeed;
 
 		$this->solution = array(
 			'payeeId' => $payeeId,
@@ -23,6 +21,10 @@ class PayeeDetails extends InstanceResource {
 
 	public function read() {
     		return $this->api->fetch("GET", $this->uri);
+   	}
+
+	public function archive() {
+    		return $this->api->fetch("PUT", $this->uri . "/archive");
    	}
 
         public function transactions() {

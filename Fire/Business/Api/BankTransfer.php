@@ -25,9 +25,6 @@ class BankTransfer extends InstanceResource {
 		$feeRules = $this->api->serviceDetails("WITHDRAWAL")->read($this->solution['accountId']);
 		$pinGrid = str_split($this->api->pinGrid->read()['positions']);
 	
-		print_r($feeRules);
-		print_r($pinGrid);
-
 		$postData = array(
 			"amount" => $transfer["amount"], 
 			"currency" => $transfer["currency"],
@@ -39,7 +36,6 @@ class BankTransfer extends InstanceResource {
 			"select1" => $this->pinDigits[$pinGrid[1]-1],
 			"select2" => $this->pinDigits[$pinGrid[2]-1],
 		);
-print_r($postData);
     		return $this->api->fetch("POST", $this->uri, null, $postData);
    	}
 

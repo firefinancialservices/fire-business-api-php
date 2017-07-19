@@ -10,20 +10,22 @@ use Fire\Http\CurlClient;
 
 class Client {
 	protected $authorizationToken;
+	protected $baseUrl;
 	protected $httpClient;
 	protected $_api;
 
-	public function __construct($authorizationToken = null) {
+	public function __construct($baseUrl = "https://api.fire.com/bupa", $authorizationToken = null) {
 		if ($authorizationToken) {
 			$this->authorizationToken = $authorizationToken;
 		}
 
+		$this->baseUrl = $baseUrl;
 		$this->httpClient = new CurlClient();
 	}
 
 	protected function getApi() {
 		if (!$this->_api) {
-			$this->_api = new Api($this);
+			$this->_api = new Api($this, $this->baseUrl);
 		}
 		return $this->_api;
 	}
