@@ -96,6 +96,34 @@ print_r ($client->account(2150)->fireTransfer(array(
 )));
 ```
 
+## Add a new Payee
+```php 
+<?php
+# Add a new Payee (EUR)
+print_r ($client->payees->newPayee(array(
+	"accountName" => "A name for the Account",
+        "accountHolderName" => "John Doe"
+	"currency" => "EUR",
+        "iban" => "IE12AIBK12345612345678",
+)));
+
+# Add a new Payee (GBP)
+print_r ($client->payees->newPayee(array(
+	"accountName" => "A name for the Account",
+        "accountHolderName" => "John Doe"
+	"currency" => "GBP",
+        "nsc" => "123456",
+	"accountNumber" => "12345678",
+)));
+```
+
+## Archive a payee
+```php
+<?php
+# Archive a payee
+print_r ($client->payee(15996)->archive());
+```
+
 ## Bank Transfer to a Payee
 ```php
 <?php
