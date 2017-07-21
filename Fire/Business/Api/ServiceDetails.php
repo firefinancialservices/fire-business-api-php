@@ -17,7 +17,13 @@ class ServiceDetails extends InstanceResource {
 	}
 
 	public function read($accountId) {
-    		return $this->api->fetch("GET", $this->uri, array("ican" => $accountId));
+		$params = array();
+	
+		if ($accountId) {
+			$params["ican"] = $accountId;		
+		} 
+
+    		return $this->api->fetch("GET", $this->uri, $params);
    	}
 
 }

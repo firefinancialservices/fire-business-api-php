@@ -21,7 +21,7 @@ class BankTransfer extends InstanceResource {
 		$this->uri = "v1/accounts/$accountId/withdrawal";
 	}
 
-	public function bankTransfer($transfer) {
+	public function transfer($transfer) {
 		$feeRules = $this->api->serviceDetails("WITHDRAWAL")->read($this->solution['accountId']);
 		$pinGrid = str_split($this->api->pinGrid->read()['positions']);
 	

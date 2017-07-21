@@ -22,14 +22,14 @@ class AccountDetails extends InstanceResource {
     		return $this->api->fetch("GET", $this->uri);
    	}
 
-	public function banktransfer($transfer) {
+	public function bankTransfer($transfer) {
 		$bt = new BankTransfer($this->api, $this->solution['accountId'], $this->pinDigits);
 		return $bt->transfer($transfer);
 	}
 
-	public function firetransfer($transfer) {
-		$bt = new FireTransfer($this->api, $this->solution['accountId']);
-		return $bt->transfer($transfer);
+	public function fireTransfer($transfer) {
+		$ft = new FireTransfer($this->api, $this->solution['accountId']);
+		return $ft->transfer($transfer);
 	}
 
 	public function transactions() {

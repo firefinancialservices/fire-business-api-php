@@ -11,7 +11,7 @@ include_once('config.inc.php');
 
 
 # Set up the PHP Client and log in.
-$client = new Fire\Business\Client("https://api-preprod.fire.com/bupa");
+$client = new Fire\Business\Client();
 $loggedInUser = $client->login($config['businessId'], $config['email'], $config['password'], $config['pindigits'], $config['totpseed']);
 
 # Get lists of Fire Account and Payees
@@ -28,13 +28,13 @@ print_r ($client->payees->read());
 #print_r($client->payee(19729)->archive());
 
 # Perform a bank transfer to a payee
-#print_r ($client->account(2150)->bankTransfer(array(
-#	"amount" => 1000,
-#        "currency" => "EUR",
-#        "payeeId" => 15996,
-#        "myRef" => "Testing",
-#        "theirRef" => "Testing BTs",
-#)));
+print_r ($client->account(2150)->bankTransfer(array(
+	"amount" => 1000,
+       "currency" => "EUR",
+        "payeeId" => 15996,
+        "myRef" => "Testing",
+        "theirRef" => "Testing BTs",
+)));
 
 
 # Perform an internal transfer between two Fire accounts
@@ -52,9 +52,9 @@ print_r ($client->payees->read());
 #print_r ($client->payee(15996)->transactions());
 
 
-print_r ($client->accounts->newAccount(array(
-	"accountName" => "Testing PHP GBP",
-	"currency" => "GBP",	
-)));
+#print_r ($client->accounts->newAccount(array(
+#	"accountName" => "Testing PHP GBP",
+#	"currency" => "GBP",	
+#)));
 	
 ?>
