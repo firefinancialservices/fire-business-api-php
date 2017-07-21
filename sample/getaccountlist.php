@@ -4,14 +4,14 @@
 include_once("Fire/Starter.php");
 
 // if using composer, do it the standard way
-require_once "vendor/autoload.php";
+#require_once "vendor/autoload.php";
 
 // Configs from another file
 include_once('config.inc.php');
 
 
 # Set up the PHP Client and log in.
-$client = new Fire\Business\Client("https://api.fire.com/bupa");
+$client = new Fire\Business\Client("https://api-preprod.fire.com/bupa");
 $loggedInUser = $client->login($config['businessId'], $config['email'], $config['password'], $config['pindigits'], $config['totpseed']);
 
 # Get lists of Fire Account and Payees
@@ -25,7 +25,7 @@ print_r ($client->payees->read());
 #	"iban" => "IE45XXXX12345678901234"
 #)));
 
-print_r($client->payee(19729)->archive());
+#print_r($client->payee(19729)->archive());
 
 # Perform a bank transfer to a payee
 #print_r ($client->account(2150)->bankTransfer(array(
@@ -50,5 +50,11 @@ print_r($client->payee(19729)->archive());
 #print_r ($client->account(2150)->transactions());
 #print_r ($client->payee(15996)->read());
 #print_r ($client->payee(15996)->transactions());
+
+
+print_r ($client->accounts->newAccount(array(
+	"accountName" => "Testing PHP GBP",
+	"currency" => "GBP",	
+)));
 	
 ?>

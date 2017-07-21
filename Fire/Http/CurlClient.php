@@ -17,6 +17,7 @@ use Fire\Business\Exceptions\EnvironmentException;
 class CurlClient implements Client {
     const DEFAULT_TIMEOUT = 60;
     protected $curlOptions = array();
+    protected $debugHttp;
 
     public function __construct(array $options = array()) {
         $this->curlOptions = $options;

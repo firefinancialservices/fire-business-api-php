@@ -113,7 +113,6 @@ class Api {
 
 
 	protected function exception($response, $header) {
-		print_r ($response);
 		$message = '[HTTP ' . $response->getStatusCode() . '] ' . $header;
 		$content = $response->getContent();
 		if (is_array($content)) {
