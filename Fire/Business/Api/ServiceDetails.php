@@ -16,7 +16,7 @@ class ServiceDetails extends InstanceResource {
 		$this->uri = "v1/services/$service";
 	}
 
-	public function read($accountId) {
+	public function read($accountId = null) {
 		$params = array();
 	
 		if ($accountId) {
