@@ -112,17 +112,17 @@ class Api {
 	}
 
 
-	protected function exception($response, $header) {
-		$message = '[HTTP ' . $response->getStatusCode() . '] ' . $header;
-		$content = $response->getContent();
-		if (is_array($content)) {
-			$message .= isset($content['message']) ? ': ' . $content['message'] : '';
-		   	$code = isset($content['code']) ? $content['code'] : $response->getStatusCode();
-		    	return new RestException($message, $code, $response->getStatusCode());
-		} else {
-		    	return new RestException($message, $response->getStatusCode(), $response->getStatusCode());
-		}
-	}
+        protected function exception($response, $header) {
+                $content = $response->getContent();
+                if (is_array($content)) {
+                        $message = isset($content['errors'][0]['message']) ? $content['errors'][0]['message'] : '';
+                        $code = isset($content['errors'][0]['code']) ? $content['errors'][0]['code'] : $response->getStatusCode();
+                        return new RestException($message, $code, $response->getStatusCode());
+                } else {
+                        return new RestException($header, $response->getStatusCode(), $response->getStatusCode());
+                }
+        }
+
 
 
 	/**

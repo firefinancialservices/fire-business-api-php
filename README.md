@@ -68,6 +68,7 @@ $client = new Fire\Business\Client("https://api.fire.com/something");
 ```
 
 ## Fire Accounts and Payees
+See [fire.com/docs][apidocs] for details of the objects returned.
 ```php
 <?php
 # Get lists of Fire Account and Payees
@@ -76,6 +77,7 @@ print_r ($client->payees->read());
 ``` 
 
 ## Details of Single Account/Payee
+See [fire.com/docs][apidocs] for details of the objects returned.
 ```php
 <?php
 # Get details of individual accounts/payees and the transactions for them.
@@ -84,6 +86,7 @@ print_r ($client->payee(15996)->read());
 ```
 
 ## Lists of transactions for an account or payee
+See [fire.com/docs][apidocs] for details of the objects returned.
 ```php
 <?php
 # Get details of individual accounts/payees and the transactions for them.
@@ -92,15 +95,36 @@ print_r ($client->payee(15996)->transactions());
 ```
 
 ## Internal transaction (same currency) between two Fire accounts
+### Input Array Details
+|Field Name|Description|
+|-|-|
+|amount|The amount to transfer (in cent or pence)|
+|currency|The currency of the transfer (EUR or GBP)|
+|destinationAccountId|The accountId of the account to transfer to. Must be an account in your Fire profile, in the same currency as the originating account|
+|myRef|A message to put on the transaction - same message on both accounts. Max 50 chars.|
+### Response Details
+|Field Name|Description|
+|-|-|
+|refId|The id of the transaction|
+
+If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details, but in general you will receive an error code ```50404``` and a message ```Sorry, we are unable to proceed with your request.```
+   
 ```php 
 <?php
 # Perform an internal transfer between two Fire accounts
-print_r ($client->account(2150)->fireTransfer(array(
-	"amount" => 1000,
-        "currency" => "EUR",
-        "destinationAccountId" => 5532,
-        "myRef" => "Testing PHP",
-)));
+try {
+        print_r ($client->account(2150)->fireTransfer(array(
+                "amount" => 1000,
+                "currency" => "EUR",
+                "destinationAccountId" => 5532,
+                "myRef" => "Testing PHP",
+        )));
+        
+} catch (Exception $e) {
+        print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+        
+}
+
 ```
 
 ## Add a new Payee

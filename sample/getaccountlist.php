@@ -38,12 +38,17 @@ print_r ($client->account(2150)->bankTransfer(array(
 
 
 # Perform an internal transfer between two Fire accounts
-#print_r ($client->account(2150)->fireTransfer(array(
-#	"amount" => 1000,
-#        "currency" => "EUR",
-#        "destinationAccountId" => 5532,
-#        "myRef" => "Testing PHP",
-#)));
+try {
+        print_r ($client->account(2150)->fireTransfer(array(
+                "amount" => 1000,
+                "currency" => "EUR",
+                "destinationAccountId" => 5532,
+                "myRef" => "Testing PHP",
+        )));
+} catch (Exception $e) {
+        print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+}
+
 
 # Get details of individual accounts/payees and the transactions for them.
 #print_r ($client->account(2150)->read());
