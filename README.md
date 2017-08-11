@@ -165,7 +165,9 @@ If there are issues with the transfer, a ```RestException``` will be thrown. Ins
 |50508|The sort code entered is an invalid sort code. Please enter a valid sort code.|Check your sort code|
 |50509|The account number entered is an invalid account number. Please enter a valid account number.|Check your account number|
 |50516|The payee name already exists. Please input a unique name|You've already used that ```accountName```|
-|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+|50100|The current Access Code you have entered is incorrect|Make sure you are using the right Access Code PIN digits.|
+|50122|Incorrect authenticator token. Please try again.|Make sure the TOTP secret is correct, and that the time on the server is correct|
+|50404|Sorry, we are unable to proceed with your request.|Generic message for all other errors. We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
 
 ```php 
 <?php
@@ -184,7 +186,6 @@ try {
 }
 
 # Add a new Payee (GBP)
-
 try {
     print_r ($client->payees->newPayee(array(
     	"accountName" => "A name for the Account",
@@ -214,6 +215,29 @@ try {
 ```
 
 ## Bank Transfer to a Payee
+### Input Array Details
+|Field Name|Description|
+|-|-|
+|amount|The amount of the transfer in cent or pence.|
+|currency|The currency of the payer account (EUR or GBP)|
+|payeeId|The ID of the payee. |
+|myRef|This is the narrative/reference that will be shown on your Fire account for this transaction.|
+|theirRef|This is the narrative/reference that will be shown to the payee.  |
+
+### Response Details
+|Field Name|Description|
+|-|-|
+|refId|The id of the transaction|
+
+If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
+
+|Error Code|Message|Description|
+|-|-|-|
+|400|Invalid value|One of your input fields has bad data.|
+|50402|Insufficient Funds|Not enough money in the account to cover the transfer.|
+|50100|The current Access Code you have entered is incorrect|Make sure you are using the right Access Code PIN digits.|
+|50404,50514|Sorry, we are unable to proceed with your request.|Generic message for all other errors. We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+
 ```php
 <?php
 # Perform a bank transfer to a payee
