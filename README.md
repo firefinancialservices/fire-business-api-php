@@ -107,8 +107,16 @@ print_r ($client->payee(15996)->transactions());
 |-|-|
 |refId|The id of the transaction|
 
-If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details, but in general you will receive an error code ```50404``` and a message ```Sorry, we are unable to proceed with your request.```
-   
+If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
+
+|Error Code|Message|Description|
+|-|-|-|
+|50402|Insufficient Funds|Not enough money in the account to cover the transfer.|
+|50416|The account does not accept that currency|Did you use GBP when you should have used EUR?|
+|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+
+
+
 ```php 
 <?php
 # Perform an internal transfer between two Fire accounts
@@ -133,17 +141,19 @@ try {
 # Add a new Payee (EUR)
 print_r ($client->payees->newPayee(array(
 	"accountName" => "A name for the Account",
-        "accountHolderName" => "John Doe"
+    "accountHolderName" => "John Doe"
 	"currency" => "EUR",
-        "iban" => "IE12AIBK12345612345678",
+    "iban" => "IE12AIBK12345612345678",
 )));
 
-# Add a new Payee (GBP)
+### Add a new Payee (GBP)
+```php 
+<?php
 print_r ($client->payees->newPayee(array(
 	"accountName" => "A name for the Account",
-        "accountHolderName" => "John Doe"
+    "accountHolderName" => "John Doe"
 	"currency" => "GBP",
-        "nsc" => "123456",
+    "nsc" => "123456",
 	"accountNumber" => "12345678",
 )));
 ```
@@ -168,8 +178,38 @@ print_r ($client->account(2150)->bankTransfer(array(
 )));
 ```
 
+## Add a new Fire Account
+### Input Array Details
+|Field Name|Description|
+|-|-|
+|accountName|The name of the new account. This name should be used as the account name on all incoming transfers to pass Fire lodgement monitoring.|
+|currency|The currency of the transfer (EUR or GBP)|
+### Response Details
+An HTTP 204 response with no body will be returned.  
 
+If there are issues adding the new account, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
 
+|Error Code|Message|Description|
+|-|-|-|
+|50402|Insufficient Funds|Not enough money in your default account to cover the cost of the new account.|
+|50410|You have reached the maximum number of accounts for this currency.|You have a limit of new accounts you can add - check the limits page in Settings.|
+|50419|The account name already exists. Please input a unique name.|You've already used that ```accountName```.|
+|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+
+```php
+<?php
+# Add a new account (this request incurs a fee!)
+try {
+    print_r ($client->accounts->newAccount(array(
+           "accountName" => "Testing PHP GBP",
+           "currency" => "GBP",    
+    )));
+    
+} catch (Exception $e) {
+    print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+        
+}
+```
 
 [releases]: https://github.com/firefinancialservices/fire-business-api-php/releases
 [apidocs]: https://fire.com/docs
