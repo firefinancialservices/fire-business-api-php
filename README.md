@@ -59,7 +59,7 @@ If there are issues signing in, a ```RestException``` will be thrown. Inspect ``
 |Error Code|Message|Description|
 |-|-|-|
 |50013|The login attempt was not successful due to bad credentials|Check your login details - businessId, email and password.|
-|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+|50404|Sorry, we are unable to proceed with your request.|Generic message for all other errors. We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
 
 ```php
 <?php 
@@ -120,7 +120,7 @@ If there are issues with the transfer, a ```RestException``` will be thrown. Ins
 |-|-|-|
 |50402|Insufficient Funds|Not enough money in the account to cover the transfer.|
 |50416|The account does not accept that currency|Did you use GBP when you should have used EUR?|
-|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+|50404|Sorry, we are unable to proceed with your request.|Generic message for all other errors. We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
 
 
 
@@ -272,7 +272,7 @@ If there are issues adding the new account, a ```RestException``` will be thrown
 |50402|Insufficient Funds|Not enough money in your default account to cover the cost of the new account.|
 |50410|You have reached the maximum number of accounts for this currency.|You have a limit of new accounts you can add - check the limits page in Settings.|
 |50419|The account name already exists. Please input a unique name.|You've already used that ```accountName```.|
-|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+|50404|Sorry, we are unable to proceed with your request.|Generic message for all other errors. We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
 
 ```php
 <?php
