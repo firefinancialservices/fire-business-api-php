@@ -54,6 +54,13 @@ If you've instead found a bug in the library or would like new features added, g
 This section of the docs concerns the Payment Initiation features of the API. These are only available using your business Id, email, password, PIN and Google Authenticator Code. This method of authentication will be replaced with standard API tokens and keys in 2017. Use this API with care!
 
 ## Authentication
+If there are issues signing in, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
+
+|Error Code|Message|Description|
+|-|-|-|
+|50013|The login attempt was not successful due to bad credentials|Check your login details - businessId, email and password.|
+|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+
 ```php
 <?php 
 // Set up the PHP Client and log in - keep your login credentials out of the code and out of Github!!
@@ -136,46 +143,93 @@ try {
 ```
 
 ## Add a new Payee
+### Input Array Details
+|Field Name|Description|
+|-|-|
+|accountName|The name/alias to give the payer - doesn't need to be the account holder name.|
+|currency|The currency of the payer account (EUR or GBP)|
+|accountHolderName|The account holder name as given to you by the payee. If this doesn't match the real payee name, payments to this payee may get returned by the destination bank.|
+|iban|For EUR payees, use the IBAN.|
+|nsc|For GBP payees, use the Sort Code (NSC) and Account Number. |
+|accountNumber|For GBP payees, use the Sort Code (NSC) and Account Number.|
+
+### Response Details
+An HTTP 204 response with no body will be returned.  
+
+If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
+
+|Error Code|Message|Description|
+|-|-|-|
+|50505|The payee you are trying to add is already live.|You've already got a Payee with those account details.|
+|50511|The IBAN entered is an invalid IBAN. Please enter a valid IBAN.|Check the IBAN to make sure it is correct|
+|50508|The sort code entered is an invalid sort code. Please enter a valid sort code.|Check your sort code|
+|50509|The account number entered is an invalid account number. Please enter a valid account number.|Check your account number|
+|50516|The payee name already exists. Please input a unique name|You've already used that ```accountName```|
+|50404|Generic message for all other errors|We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
+
 ```php 
 <?php
 # Add a new Payee (EUR)
-print_r ($client->payees->newPayee(array(
-	"accountName" => "A name for the Account",
-    "accountHolderName" => "John Doe"
-	"currency" => "EUR",
-    "iban" => "IE12AIBK12345612345678",
-)));
+try {
+    print_r ($client->payees->newPayee(array(
+    	"accountName" => "A name for the Account",
+        "accountHolderName" => "John Doe"
+    	"currency" => "EUR",
+        "iban" => "IE12AIBK12345612345678",
+    )));
+    
+} catch (Exception $e) {
+        print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+        
+}
 
-### Add a new Payee (GBP)
-```php 
-<?php
-print_r ($client->payees->newPayee(array(
-	"accountName" => "A name for the Account",
-    "accountHolderName" => "John Doe"
-	"currency" => "GBP",
-    "nsc" => "123456",
-	"accountNumber" => "12345678",
-)));
+# Add a new Payee (GBP)
+
+try {
+    print_r ($client->payees->newPayee(array(
+    	"accountName" => "A name for the Account",
+        "accountHolderName" => "John Doe"
+    	"currency" => "GBP",
+        "nsc" => "123456",
+    	"accountNumber" => "12345678",
+    )));
+    
+} catch (Exception $e) {
+        print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+        
+}
 ```
 
 ## Archive a payee
 ```php
 <?php
 # Archive a payee
-print_r ($client->payee(15996)->archive());
+try {
+    print_r ($client->payee(15996)->archive());
+    
+} catch (Exception $e) {
+        print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+        
+}
 ```
 
 ## Bank Transfer to a Payee
 ```php
 <?php
 # Perform a bank transfer to a payee
-print_r ($client->account(2150)->bankTransfer(array(
-	"amount" => 1000,
+try {
+    print_r ($client->account(2150)->bankTransfer(array(
+    	"amount" => 1000,
         "currency" => "EUR",
         "payeeId" => 15996,
         "myRef" => "Testing",
         "theirRef" => "Testing BTs",
-)));
+    )));
+        
+} catch (Exception $e) {
+        print_r ($e->getCode() . ': ' . $e->getMessage() . "\n");
+        
+}
 ```
 
 ## Add a new Fire Account
