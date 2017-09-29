@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "74060f5f76c8544e8b8d383e40e290f1",
-    "content-hash": "dc782cdfab3468b251f22bc32c601f94",
+    "hash": "9eaf81608b155ee85dca25a4ec388d3f",
+    "content-hash": "2fc66c3830e091dbfe85b3e5a895b71c",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -170,6 +170,57 @@
                 "random"
             ],
             "time": "2017-03-13 16:27:32"
+        },
+        {
+            "name": "robthree/twofactorauth",
+            "version": "1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobThree/TwoFactorAuth.git",
+                "reference": "5093ab230cd8f1296d792afb6a49545f37e7fd5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobThree/TwoFactorAuth/zipball/5093ab230cd8f1296d792afb6a49545f37e7fd5a",
+                "reference": "5093ab230cd8f1296d792afb6a49545f37e7fd5a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RobThree\\Auth\\": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Janssen",
+                    "homepage": "http://robiii.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Two Factor Authentication",
+            "homepage": "https://github.com/RobThree/TwoFactorAuth",
+            "keywords": [
+                "Authentication",
+                "MFA",
+                "Multi Factor Authentication",
+                "Two Factor Authentication",
+                "authenticator",
+                "authy",
+                "php",
+                "tfa"
+            ],
+            "time": "2017-02-17 15:24:54"
         },
         {
             "name": "spomky-labs/otphp",

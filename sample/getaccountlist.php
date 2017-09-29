@@ -1,7 +1,7 @@
 <?php
 
 // If you aren't using composer, include the Fire/Starter file to grab all the Fire libraries
-include_once("Fire/Starter.php");
+//include_once("Fire/Starter.php");
 
 // if using composer, do it the standard way
 require_once "vendor/autoload.php";

@@ -2,7 +2,7 @@
 
 namespace Fire\Business\Api;
 
-use OTPHP\TOTP;
+use RobThree\Auth\TwoFactorAuth; 
 use Fire\Business\Api;
 use Fire\Business\ListResource;
 
@@ -27,7 +27,7 @@ class PayeeList extends ListResource {
 	
 	public function newPayee($payee) {
 		$pinGrid = str_split($this->api->pinGrid->read()['positions']);
-		$totp = new TOTP("Fire Business Account", $this->totpSeed);
+		$totp = new TwoFactorAuth("Fire Business Account");
 	
 		$postData = array(
 			"accountName" => $payee["accountName"], 
@@ -36,7 +36,7 @@ class PayeeList extends ListResource {
 			"iban" => @$payee["iban"],
 			"nsc" => @$payee["nsc"],
 			"accountNumber" => @$payee["accountNumber"],
-			"authenticatorToken" => $totp->now(),
+			"authenticatorToken" => $totp->getCode($this->totpSeed),
 			"select0" => $this->pinDigits[$pinGrid[0]-1],
 			"select1" => $this->pinDigits[$pinGrid[1]-1],
 			"select2" => $this->pinDigits[$pinGrid[2]-1],
