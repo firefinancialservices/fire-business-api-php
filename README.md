@@ -1,6 +1,9 @@
 # fire-business-api-php
 A PHP library for accessing the Fire Business API
 
+[![Latest Version](https://img.shields.io/packagist/v/fire/business-api-sdk.svg?style=flat-square)](https://packagist.org/packages/fire/business-api-sdk) [![License](https://img.shields.io/packagist/l/fire/business-api-sdk.svg?style=flat-square)](LICENSE) 
+
+
 ## Installation
 
 You can install **fire-business-api-php** by downloading the latest [release][releases] or using composer:
