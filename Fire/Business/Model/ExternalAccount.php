@@ -8,7 +8,7 @@ class ExternalAccount {
     public function __construct(\stdClass $rawData) {
 
         $this->properties = array(
-            'id' => $rawData->{'id'},
+            'id' => property_exists($rawData, 'id') ? $rawData->{'id'} : null,
             'alias' => $rawData->{'alias'},
             'nsc' => @$rawData->{'nsc'},
             'accountNumber' => @$rawData->{'accountNumber'},
