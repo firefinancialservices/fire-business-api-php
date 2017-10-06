@@ -23,7 +23,7 @@ class Transaction {
             'feeAmount' => $rawTransaction->{'feeAmount'},
             'amountAfterCharges' => $rawTransaction->{'amountAfterCharges'},
             'balance' => $rawTransaction->{'balance'},
-            'description' => $rawTransaction->{'myRef'},
+            'description' => property_exists($rawTransaction, 'myRef') ? $rawTransaction->{'myRef'} : null,
             'date' => Deserialize::iso8601DateTime($rawTransaction->{'date'})
         );
         
