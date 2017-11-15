@@ -22,6 +22,7 @@ class FireTransfer extends InstanceResource {
 			"currency" => $transfer["currency"],
 			"icanFrom" => $this->solution['accountId'],
 			"icanTo" => $transfer["destinationAccountId"],
+			"quotedFee" => 0,
 			"ref" => $transfer["myRef"],
 		);
     		return $this->api->fetch("POST", $this->uri, null, $postData);

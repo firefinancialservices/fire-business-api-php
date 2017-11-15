@@ -14,7 +14,7 @@ class Client {
 	protected $httpClient;
 	protected $_api;
 
-	public function __construct($baseUrl = "https://api.fire.com/bupa", $authorizationToken = null) {
+	public function __construct($baseUrl = "https://api.fire.com/business/ui", $authorizationToken = null) {
 		if ($authorizationToken) {
 			$this->authorizationToken = $authorizationToken;
 		}
