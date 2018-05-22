@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9eaf81608b155ee85dca25a4ec388d3f",
-    "content-hash": "2fc66c3830e091dbfe85b3e5a895b71c",
+    "hash": "f0ba03433a4be5753eec839d21c96eb9",
+    "content-hash": "dcba985114ca7998ff1319eeeb99a190",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -61,6 +61,53 @@
                 "validation"
             ],
             "time": "2017-05-04 02:00:24"
+        },
+        {
+            "name": "fire/business-api-sdk",
+            "version": "0.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/firefinancialservices/fire-business-api-php.git",
+                "reference": "b0d6b91297ba99aca8fa74c6724e80dc4a1b48ea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/firefinancialservices/fire-business-api-php/zipball/b0d6b91297ba99aca8fa74c6724e80dc4a1b48ea",
+                "reference": "b0d6b91297ba99aca8fa74c6724e80dc4a1b48ea",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3.0",
+                "robthree/twofactorauth": ">=1.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fire\\": "Fire/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Owen O Byrne",
+                    "email": "owen.obyrne@fire.com"
+                }
+            ],
+            "description": "A PHP wrapper for the Fire Business API",
+            "homepage": "http://github.com/firefinancialservices/fire-business-api-php",
+            "keywords": [
+                "account",
+                "api",
+                "business",
+                "fire"
+            ],
+            "time": "2017-11-15 15:57:48"
         },
         {
             "name": "paragonie/constant_time_encoding",
