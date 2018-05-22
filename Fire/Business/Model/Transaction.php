@@ -21,6 +21,7 @@ class Transaction {
             'amountBeforeFee' => $rawTransaction->{'amountBeforeFee'},
             'currency' => $rawTransaction->{'currency'}->{'code'},
             'feeAmount' => $rawTransaction->{'feeAmount'},
+            'taxAmount' => $rawTransaction->{'taxAmount'},
             'amountAfterFee' => $rawTransaction->{'amountAfterFee'},
             'balance' => $rawTransaction->{'balance'},
             'description' => $rawTransaction->{'myRef'},
