@@ -36,6 +36,27 @@ $events = $handler->parse($raw_post_data);
 print $events[0];
 ```
 
+### Send a test webhook
+You can send a webhook to your server using the sample script in samples/.
+
+```php testwebhook.php --ref="INV 23798" --amount=1249 --endpoint=https://2i7yqo19qv39.runscope.net/``` 
+
+The options are:
+```
+Usage: php testwebhook.php --endpoint=https://example.com [options]
+
+  --ref=<reference> - the reference to use on the webhook lodgement
+  --amount=<amount> - the amount (in pence/cent) to use on the lodgement
+  --currency=<EUR|GBP> - the currency of the lodgement
+  --fromAccountNum=<accountnum> - the account number this lodgement is from
+  --fromNsc=<nsc> - the sortcode this lodgement is from
+  --fromBIC=<bic> - the bic this lodgement is from
+  --fromIBAN=<iban> - the IBAN this lodgement is from
+  --toAccountNum=<accountnum> - the fire account number this lodgement is for
+  --toIBAN=<iban> - the fire IBAN this lodgement is for
+```
+
+
 ## Documentation
 
 The documentation for the Fire Business API is available at [fire.com/docs][apidocs].
