@@ -17,16 +17,18 @@ use Fire\Business\Exceptions\EnvironmentException;
 class CurlClient implements Client {
     const DEFAULT_TIMEOUT = 60;
     protected $curlOptions = array();
+    protected $debugHttp;
 
     public function __construct(array $options = array()) {
         $this->curlOptions = $options;
+	$this->debugHttp = getenv('DEBUG_HTTP_TRAFFIC') === 'true';
     }
 
     public function request($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $user = null, $password = null,
+                            $headers = array(), $authorizationToken = null,
                             $timeout = null) {
         $options = $this->options($method, $url, $params, $data, $headers,
-                                  $user, $password, $timeout);
+                                  $authorizationToken, $timeout);
 
         try {
             if (!$curl = curl_init()) {
@@ -77,7 +79,7 @@ class CurlClient implements Client {
     }
 
     public function options($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $user = null, $password = null,
+                            $headers = array(), $authorizationToken = null,
                             $timeout = null) {
 
         $timeout = is_null($timeout)
@@ -91,14 +93,16 @@ class CurlClient implements Client {
             CURLOPT_INFILESIZE => -1,
             CURLOPT_HTTPHEADER => array(),
             CURLOPT_TIMEOUT => $timeout,
+	    CURLOPT_VERBOSE => $this->debugHttp,
         );
 
         foreach ($headers as $key => $value) {
             $options[CURLOPT_HTTPHEADER][] = "$key: $value";
         }
+        $options[CURLOPT_HTTPHEADER][] = "Content-Type: application/json";
 
-        if ($user && $password) {
-            $options[CURLOPT_HTTPHEADER][] = 'Authorization: Basic ' . base64_encode("$user:$password");
+        if ($authorizationToken) {
+            $options[CURLOPT_HTTPHEADER][] = "Authorization: $authorizationToken";
         }
 
         $body = $this->buildQuery($params);
@@ -112,7 +116,9 @@ class CurlClient implements Client {
                 break;
             case 'post':
                 $options[CURLOPT_POST] = true;
-                $options[CURLOPT_POSTFIELDS] = $this->buildQuery($data);
+                #$options[CURLOPT_POSTFIELDS] = $this->buildQuery($data);
+                $options[CURLOPT_POSTFIELDS] = json_encode($data);
+
 
                 break;
             case 'put':

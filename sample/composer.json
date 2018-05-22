@@ -1,0 +1,6 @@
+{
+    "require": {
+        "spomky-labs/otphp": "^8.3",
+        "robthree/twofactorauth": "^1.6"
+    }
+}

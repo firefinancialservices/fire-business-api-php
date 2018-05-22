@@ -14,6 +14,6 @@ namespace Fire\Http;
 
 interface Client {
     public function request($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $user = null, $password = null,
+                            $headers = array(), $authorizationToken = null,
                             $timeout = null);
 }

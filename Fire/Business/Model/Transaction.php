@@ -9,22 +9,22 @@ class Transaction {
     
     public function __construct(\stdClass $rawTransaction) {
 
-	if (is_string(@$rawTransaction->{'type'})) {
-	    // This is probably a test webhook - stupid bug
-	    $type = $rawTransaction->{'type'};
-	} else {
-	    $type = $rawTransaction->{'txnType'}->{'type'};
-	}
+        if (is_string(@$rawTransaction->{'type'})) {
+            // This is probably a test webhook - stupid bug
+            $type = $rawTransaction->{'type'};
+        } else {
+            $type = $rawTransaction->{'txnType'}->{'type'};
+        }
 
         $this->properties = array(
             'type' => $type,
-            'amountBeforeFee' => $rawTransaction->{'amountBeforeFee'},
+            'amountBeforeCharges' => $rawTransaction->{'amountBeforeCharges'},
             'currency' => $rawTransaction->{'currency'}->{'code'},
             'feeAmount' => $rawTransaction->{'feeAmount'},
             'taxAmount' => $rawTransaction->{'taxAmount'},
-            'amountAfterFee' => $rawTransaction->{'amountAfterFee'},
+            'amountAfterCharges' => $rawTransaction->{'amountAfterCharges'},
             'balance' => $rawTransaction->{'balance'},
-            'description' => $rawTransaction->{'myRef'},
+            'description' => property_exists($rawTransaction, 'myRef') ? $rawTransaction->{'myRef'} : null,
             'date' => Deserialize::iso8601DateTime($rawTransaction->{'date'})
         );
         
@@ -70,9 +70,9 @@ class Transaction {
         $context = array();
         foreach ($this->properties as $key => $value) {
             if ($value instanceof \DateTime) {
-            	$context[] = "$key=".$value->format('Y-m-d\TH:i:s');
+                $context[] = "$key=".$value->format('Y-m-d\TH:i:s');
             } else { 
-            	$context[] = "$key=$value";
+                $context[] = "$key=$value";
             }
         }
         return '[ Fire.Business.Model.Transaction: ' . implode(' ', $context) . ' ]';

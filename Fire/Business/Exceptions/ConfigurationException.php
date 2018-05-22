@@ -1,4 +1,4 @@
 <?php
-namespace Fire\Exceptions;
+namespace Fire\Business\Exceptions;
 class ConfigurationException extends FireException {
 }
