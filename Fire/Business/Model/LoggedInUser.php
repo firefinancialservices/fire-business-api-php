@@ -17,7 +17,6 @@ class LoggedInUser extends InstanceResource {
             'userProfile' => $rawData['userProfile'],
             'permissions' => $rawData['permissions']
         );
-        
     }
 
 
@@ -56,7 +55,7 @@ class LoggedInUser extends InstanceResource {
             	$context[] = "$key=$value";
             }
         }
-        return '[ Fire.Business.Model.User: ' . implode(' ', $context) . ' ]';
+        return '[ Fire.Business.Model.LoggedInUser: ' . implode(' ', $context) . ' ]';
     }
 
 }

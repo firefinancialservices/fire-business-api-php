@@ -5,8 +5,12 @@ namespace Fire\Business;
 use Fire\Business\Api\Login;
 use Fire\Business\Api\AccountList;
 use Fire\Business\Api\AccountDetails;
+use Fire\Business\Api\CardList;
+use Fire\Business\Api\CardDetails;
 use Fire\Business\Api\PayeeList;
 use Fire\Business\Api\PayeeDetails;
+use Fire\Business\Api\BatchList;
+use Fire\Business\Api\BatchDetails;
 use Fire\Business\Api\UserDetails;
 use Fire\Business\Api\PinGrid;
 use Fire\Business\Api\ServiceDetails;
@@ -16,59 +20,68 @@ use Fire\Business\Exceptions\FireException;
 class Api {
 	protected $client;
 	protected $baseUrl;
-	protected $pinDigits = array();
-	protected $totpSeed;
 
-	protected $_login = null;
+	// cache the results of these lists
 	protected $_userDetails = null;
 	protected $_accounts = null;
+	protected $_cards = null;
 	protected $_payees = null;
-	protected $_serviceDetails = null;
 
 	public function __construct(Client $client, $baseUrl) {
 		$this->client = $client;
 		$this->baseUrl = $baseUrl;
 	}
 
-	protected function contextLogin($businessId, $email, $password, $pinDigits, $totpSeed) {
-		$this->pinDigits = str_split($pinDigits);
-		$this->totpSeed = $totpSeed;
-
-        	if (!$this->_login) {
-        		$this->_login = new Login($this);
-        	}
-        	return $this->_login->login($businessId, $email, $password);
+	protected function contextInitialise($config) {
+        	$login = new Login($this);
+        	return $login->initialise($config);
     	}
 
-	protected function getAccounts() {
-        	if (!$this->_accounts) {
+	protected function getAccounts($useCache = true) {
+        	if (!$this->_accounts || !$useCache) {
         		$this->_accounts = new AccountList($this);
         	}
         	return $this->_accounts;
     	}
 
 	protected function contextAccounts($accountId) {
-		return new AccountDetails($this, $accountId, $this->pinDigits);
+		return new AccountDetails($this, $accountId);
 	}
 
+	protected function getCards($useCache = true) {
+        	if (!$this->_cards || !$useCache) {
+        		$this->_cards = new CardList($this);
+        	}
+        	return $this->_cards;
+    	}
+
+	protected function contextCards($cardId) {
+		return new CardDetails($this, $cardId);
+	}
+
+	protected function getPayees($useCache = true) {
+        	if (!$this->_payees || !$useCache) {
+        		$this->_payees = new PayeeList($this);
+        	}
+        	return $this->_payees;
+    	}
+
 	protected function contextPayees($payeeId) {
-		return new PayeeDetails($this, $payeeId, $this->pinDigits);
+		return new PayeeDetails($this, $payeeId);
+	}
+
+	protected function getBatches() {
+        	return new BatchList($this);
+    	}
+
+	protected function contextBatches($batchId) {
+		return new BatchDetails($this, $batchId);
 	}
 
 	protected function contextServiceDetails($service) {
         	return new ServiceDetails($this, $service);
     	}
 
-	protected function getPinGrid() {
-        	return new PinGrid($this);
-    	}
-
-	protected function getPayees() {
-        	if (!$this->_payees) {
-        		$this->_payees = new PayeeList($this, $this->pinDigits, $this->totpSeed);
-        	}
-        	return $this->_payees;
-    	}
 
 	protected function getUserDetails() {
         	if (!$this->_userDetails) {

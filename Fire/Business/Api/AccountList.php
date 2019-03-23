@@ -18,6 +18,8 @@ class AccountList extends ListResource {
     		return $this->api->fetch("GET", $this->uri);
    	}
 
+/*
+	// This will change when the Add Account API call is introduced
 	public function newAccount($account) {
                 $feeRules = $this->api->serviceDetails("ADD_ACCOUNT")->read();
 
@@ -29,5 +31,6 @@ class AccountList extends ListResource {
                 );
                 return $this->api->fetch("POST", $this->uri, null, $postData);
         }
+*/
 
 }

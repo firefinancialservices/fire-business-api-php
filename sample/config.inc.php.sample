@@ -5,12 +5,8 @@
 $config['keyId'] = '';
 $config['secret'] = '';
 
-
-# These are only for use in the alpha version - once the final release is out, API tokens will be used.
-$config['businessId'] = '';
-$config['email'] = '';
-$config['password'] = '';
-$config['pindigits'] = '';
-$config['totpseed'] = '';
+$config['clientId'] = '';
+$config['clientKey'] = '';
+$config['refreshToken'] = '';
 
 ?>

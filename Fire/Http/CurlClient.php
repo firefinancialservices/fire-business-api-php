@@ -25,10 +25,10 @@ class CurlClient implements Client {
     }
 
     public function request($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $authorizationToken = null,
+                            $headers = array(), $accessToken = null,
                             $timeout = null) {
         $options = $this->options($method, $url, $params, $data, $headers,
-                                  $authorizationToken, $timeout);
+                                  $accessToken, $timeout);
 
         try {
             if (!$curl = curl_init()) {
@@ -79,7 +79,7 @@ class CurlClient implements Client {
     }
 
     public function options($method, $url, $params = array(), $data = array(),
-                            $headers = array(), $authorizationToken = null,
+                            $headers = array(), $accessToken = null,
                             $timeout = null) {
 
         $timeout = is_null($timeout)
@@ -101,8 +101,8 @@ class CurlClient implements Client {
         }
         $options[CURLOPT_HTTPHEADER][] = "Content-Type: application/json";
 
-        if ($authorizationToken) {
-            $options[CURLOPT_HTTPHEADER][] = "Authorization: $authorizationToken";
+        if ($accessToken) {
+            $options[CURLOPT_HTTPHEADER][] = "Authorization: Bearer $accessToken";
         }
 
         $body = $this->buildQuery($params);
@@ -116,7 +116,6 @@ class CurlClient implements Client {
                 break;
             case 'post':
                 $options[CURLOPT_POST] = true;
-                #$options[CURLOPT_POSTFIELDS] = $this->buildQuery($data);
                 $options[CURLOPT_POSTFIELDS] = json_encode($data);
 
 
