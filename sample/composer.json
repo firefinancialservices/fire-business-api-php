@@ -1,7 +1,6 @@
 {
     "require": {
         "spomky-labs/otphp": "^8.3",
-        "robthree/twofactorauth": "^1.6",
-        "fire/business-api-sdk": "^0.0.10"
+        "robthree/twofactorauth": "^1.6"
     }
 }

@@ -17,8 +17,8 @@ class TransactionList extends ListResource {
 		$this->uri = "v1/$type/$id/transactions";
 	}
 
-	public function read() {
-    		return $this->api->fetch("GET", $this->uri);
+	public function read($options = array()) {
+    		return $this->api->fetch("GET", $this->uri, $options);
    	}
 
 }

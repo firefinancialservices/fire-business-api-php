@@ -9,25 +9,35 @@ use Fire\Http\Client as HttpClient;
 use Fire\Http\CurlClient;
 
 class Client {
-	protected $authorizationToken;
-	protected $baseUrl;
-	protected $httpClient;
+	protected $_accessToken;
+	protected $_baseUrl;
+	protected $_httpClient;
+	protected $_permissions;
+	protected $_businessId;
 	protected $_api;
 
-	public function __construct($baseUrl = "https://api.fire.com/business/ui", $authorizationToken = null) {
-		if ($authorizationToken) {
-			$this->authorizationToken = $authorizationToken;
+	public function __construct($baseUrl = "https://api.fire.com/business", $accessToken = null) {
+		if ($accessToken) {
+			$this->_accessToken = $accessToken;
 		}
 
-		$this->baseUrl = $baseUrl;
-		$this->httpClient = new CurlClient();
+		$this->_baseUrl = $baseUrl;
+		$this->_httpClient = new CurlClient();
 	}
 
 	protected function getApi() {
 		if (!$this->_api) {
-			$this->_api = new Api($this, $this->baseUrl);
+			$this->_api = new Api($this, $this->_baseUrl);
 		}
 		return $this->_api;
+	}
+
+	protected function getBusinessId() {
+		return $this->_businessId;
+	}
+
+	protected function getPermissions() {
+		return $this->_permissions;
 	}
 
 	protected function getAccounts() {
@@ -38,8 +48,12 @@ class Client {
 		return $this->api->accounts($accountId);
 	}
 
-	protected function getPinGrid() {
-		return $this->api->pinGrid;
+	protected function getCards() {
+		return $this->api->cards;
+	}
+
+	protected function contextCard($cardId) {
+		return $this->api->cards($cardId);
 	}
 
 	protected function contextServiceDetails($service) {
@@ -54,6 +68,14 @@ class Client {
 		return $this->api->payees($payeeId);
 	}
 
+	protected function getBatches() {
+		return $this->api->batches;
+	}
+
+	protected function contextBatch($batchId) {
+		return $this->api->batches($batchId);
+	}
+
 	protected function getUserDetails() {
 		$response = $this->api->userDetails;
 		return new LoggedInUser(
@@ -62,12 +84,13 @@ class Client {
 		);
 	}
 
-	protected function contextLogin($businessId, $email, $password, $pinDigits, $totpSeed) {
-		$response = $this->api->login($businessId, $email, $password, $pinDigits, $totpSeed);
-		return new LoggedInUser(
-			$this->_api, 
-			$response
-		);
+	protected function contextInitialise($config) {
+		$response = $this->api->initialise($config);
+		$this->_accessToken = $response["accessToken"];
+		$this->_permissions = $response["permissions"];
+		$this->_businessId = $response["businessId"];
+
+		return $this;
 	}
 
 
@@ -75,20 +98,15 @@ class Client {
                 $headers = array(),
                 $timeout = null) {
 
-                $response = $this->httpClient->request(
+                $response = $this->_httpClient->request(
                     $method,
                     $uri,
                     $params,
                     $data,
                     $headers,
-                    $this->authorizationToken,
+                    $this->_accessToken,
                     $timeout
                 );
-
-		if (array_key_exists("at", $response->getHeaders())) {
-			$this->authorizationToken = $response->getHeaders()["at"];
-			file_put_contents(".fire.token.cache",$response->getHeaders()["at"]);
-		}
 
 		return $response;
         }

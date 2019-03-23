@@ -7,14 +7,9 @@ use Fire\Business\Api;
 use Fire\Business\ListResource;
 
 class PayeeList extends ListResource {
-	protected $totpSeed;
-	protected $pinDigits = array();
 	
-	public function __construct(Api $api, array $pinDigits, $totpSeed) {
+	public function __construct(Api $api) {
 		parent::__construct($api);
-
-		$this->pinDigits = $pinDigits;
-		$this->totpSeed = $totpSeed;
 
 		$this->solution = array();
 		$this->uri = "v1/fundingsources";
@@ -25,6 +20,8 @@ class PayeeList extends ListResource {
    	}
 
 	
+/*
+	// This isn't used in v1 of the PHP library - use payment batches instead.
 	public function newPayee($payee) {
 		$pinGrid = str_split($this->api->pinGrid->read()['positions']);
 		$totp = new TwoFactorAuth("Fire Business Account");
@@ -43,5 +40,5 @@ class PayeeList extends ListResource {
 		);
     		return $this->api->fetch("POST", $this->uri, null, $postData);
    	}
-
+*/
 }
