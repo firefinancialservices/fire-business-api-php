@@ -84,19 +84,14 @@ print_r ($client->account(2150)->transactions(array("offset"=>10, "limit"=>25)))
 ```
 
 ## Internal transaction (same currency) between two Fire accounts
-Transfers are performed in batches of up to 100 items. Internal transfers don't require approval, whereas you must use the Firework for Business App to approve external bank transfers. 
+The fire.com API allows businesses to automate payments between their accounts automatically.
 
-### Input Array Details
-|Field Name|Description|
-|-|-|
-|amount|The amount to transfer (in cent or pence)|
-|currency|The currency of the transfer (EUR or GBP)|
-|destinationAccountId|The accountId of the account to transfer to. Must be an account in your Fire profile, in the same currency as the originating account|
-|myRef|A message to put on the transaction - same message on both accounts. Max 50 chars.|
-### Response Details
-|Field Name|Description|
-|-|-|
-|refId|The id of the transaction|
+The process is as follows:
+1. Create a new batch
+1. Add transfers to the batch
+1. Submit the batch for processing.
+
+Transfers are performed in batches of up to 100 items. Internal transfers don't require approval. 
 
 If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
 
@@ -105,8 +100,6 @@ If there are issues with the transfer, a ```RestException``` will be thrown. Ins
 |50402|Insufficient Funds|Not enough money in the account to cover the transfer.|
 |50416|The account does not accept that currency|Did you use GBP when you should have used EUR?|
 |50404|Sorry, we are unable to proceed with your request.|Generic message for all other errors. We hide the details of a lot of errors for security purposes. This can make it difficult to find the root cause of a problem|
-
-
 
 ```php 
 <?php
@@ -151,19 +144,21 @@ try {
 ```
 
 ## Bank Transfer to a Payee
-### Input Array Details
-|Field Name|Description|
-|-|-|
-|amount|The amount of the transfer in cent or pence.|
-|currency|The currency of the payer account (EUR or GBP)|
-|payeeId|The ID of the payee. |
-|myRef|This is the narrative/reference that will be shown on your Fire account for this transaction.|
-|yourRef|This is the narrative/reference that will be shown to the payee.  |
+The fire.com API allows businesses to automate payments to third parties across the UK and Europe.
 
-### Response Details
-|Field Name|Description|
-|-|-|
-|refId|The id of the transaction|
+For security, the API can only set up the payments. The batches of payments must be approved by an authorised user via the firework mobile app.
+
+The process is as follows:
+1. Create a new batch
+1. Add payments to the batch
+1. Submit the batch for approval.
+
+Once the batch is submitted, the authorised users will receive notifications to their firework mobile apps. They can review the contents of the batch and then approve or reject it. If approved, the batch is then processed.
+
+There are two ways to process bank transfers - by Payee ID (Mode 1) or by Payee Account Details (Mode 2).
+
+*Mode 1* - Use the payee IDs of existing approved payees set up against your account. These batches can be approved in the normal manner.
+*Mode 2* - Use the account details of the payee. In the event that these details correspond to an existing approved payee, the batch can be approved as normal. If the account details are new, a batch of New Payees will automatically be created. This batch will need to be approved before the Payment batch can be approved. These payees will then exist as approved payees for future batches.
 
 If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
 
@@ -215,7 +210,7 @@ try {
 }
 ```
 
-### Decode a webhook
+# Decode a webhook
 
 ```php
 <?php
