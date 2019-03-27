@@ -197,14 +197,14 @@ try {
 	
 	# Add a bank transfer using account details instead:
 	$transaction = $client->batch($batchId)->addBankTransfer(array(
-	    "icanFrom" => "2001",
-        "payeeType" => "ACCOUNT_DETAILS", 
-        "destIban" => "IE00AIBK93123412341234", 
-        "destAccountHolderName" => "John Smith",
-        "amount" => "500"
-        "myRef" => "Payment to John Smith for Consultancy in Dec.",
-        "yourRef" => "ACME LTD - INV 23434"
-    ));
+		"icanFrom" => "2001",
+		"payeeType" => "ACCOUNT_DETAILS", 
+		"destIban" => "IE00AIBK93123412341234", 
+		"destAccountHolderName" => "John Smith",
+		"amount" => "500"
+		"myRef" => "Payment to John Smith for Consultancy in Dec.",
+		"yourRef" => "ACME LTD - INV 23434"
+	));
 
 	$bankTransfers = $client->batch($batchId)->bankTransfers->read();
 	print_r ($bankTransfers);
