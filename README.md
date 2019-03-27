@@ -84,7 +84,7 @@ print_r ($client->account(2150)->transactions(array("offset"=>10, "limit"=>25)))
 ```
 
 ## Internal transaction (same currency) between two Fire accounts
-The fire.com API allows businesses to automate payments between their accounts automatically.
+The fire.com API allows businesses to make payments between their accounts automatically.
 
 The process is as follows:
 1. Create a new batch
