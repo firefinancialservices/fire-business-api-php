@@ -159,8 +159,8 @@ There are two ways to process bank transfers - by Payee ID (Mode 1) or by Payee 
 
 |Mode|Description|
 |---|---|
-|Mode 1|Use the payee IDs of existing approved payees set up against your account. These batches can be approved in the normal manner.|
-|Mode 2|Use the account details of the payee. In the event that these details correspond to an existing approved payee, the batch can be approved as normal. If the account details are new, a batch of New Payees will automatically be created. This batch will need to be approved before the Payment batch can be approved. These payees will then exist as approved payees for future batches.|
+|Mode 1|Set the `payeeType` to `PAYEE_ID` to use the payee IDs of existing approved payees set up against your account. These batches can be approved in the normal manner.|
+|Mode 2|Set the `payeeType` to `ACCOUNT_DETAILS` to use the account details of the payee. In the event that these details correspond to an existing approved payee, the batch can be approved as normal. If the account details are new, a batch of New Payees will automatically be created. This batch will need to be approved before the Payment batch can be approved. These payees will then exist as approved payees for future batches.|
 
 If there are issues with the transfer, a ```RestException``` will be thrown. Inspect ```$e->getCode()``` and ```$e->getMessage()``` for more details.
 
