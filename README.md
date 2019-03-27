@@ -14,7 +14,7 @@ To run the samples, edit the file `sample/config.inc.php.sample` and rename to `
 
 ## Documentation
 
-The documentation for the Fire Business API is available at [fire.com/docs][apidocs].
+The documentation for the Fire Business API is available at [fire.com/docs][apidocs]. Use the API docs in conjunction with these SDK docs.  
 
 ## Prerequisites
 
